@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Симуляция разрезания красной ленты</title>
+    <link rel="stylesheet" href="./base.css">
+    <script src="https://cdn.jsdelivr.net/npm/js-confetti@latest/dist/js-confetti.browser.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="signs-bg-wrapper">
+            <div class="sign-bg"></div>
+        </div>
+        <section class="logos-wrapper">
+            <img src="./kstu_w.png" alt="КНИТУ">
+            <div class="separator"></div>
+            <img src="./iuait.png" alt="ИУАИТ">
+        </section>
+        <section class="simulation-area" id="simulationArea">
+            <div class="ribbon-container">
+                <div class="ribbon" id="ribbon"></div>
+            </div>
+            <div class="scissors" id="scissors"></div>
+        </section>
+    </div>
+    <footer>
+        <p>Rishat Kagirov & friends, 2026</p>
+    </footer>
+
+    <script src="./base.js"></script>
+</body>
+</html>
