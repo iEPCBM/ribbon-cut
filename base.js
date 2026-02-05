@@ -1,60 +1,40 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Основные элементы
     const jsConfetti = new JSConfetti();
 
 
     const simulationArea = document.getElementById('simulationArea');
     const ribbon = document.getElementById('ribbon');
-    const scissors = document.getElementById('scissors');
 
-    // Состояние приложения
-    let isCutting = false;
     let cutCount = 0;
     let ribbonParts = [ribbon];
-    let cutStartPoint = null;
-    let currentCutLine = null;
-
-    // Размеры области симуляции
+    let cutStartPoints = [null, null];
+    const activeTouches = new Map();
     let areaRect = simulationArea.getBoundingClientRect();
 
-    // Обновление размеров при изменении окна
     function updateAreaRect() {
         areaRect = simulationArea.getBoundingClientRect();
     }
 
     window.addEventListener('resize', updateAreaRect);
 
-    // Получение координат события относительно области симуляции
-    function getEventCoordinates(event) {
-        let clientX, clientY;
-
-        if (event.type.includes('touchend')) {
-            const touch = event.changedTouches[0];
-            clientX = touch.clientX;
-            clientY = touch.clientY;
-            console.log(clientX);
-
-        }
-        else if (event.type.includes('touch')) {
-            clientX = event.touches[0].clientX;
-            clientY = event.touches[0].clientY;
-        } else {
-            clientX = event.clientX;
-            clientY = event.clientY;
-        }
-
-        return {
-            x: clientX - areaRect.left,
-            y: clientY - areaRect.top
-        };
-    }
     function convertRemToPixels(rem) {
         return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
     }
 
+    function createScissors(touchId, x, y) {
+        const scissors = document.createElement('div');
+        scissors.className = 'scissors';
+        scissors.id = `scissors-${touchId}`;
+        scissors.style.left = `${x}px`;
+        scissors.style.top = `${y}px`;
+        scissors.style.opacity = '1';
 
-    // Создание эффекта разрезания
-    function createCutEffect(x, y, angle) {
+        simulationArea.appendChild(scissors);
+        return scissors;
+    }
+
+
+    function createCutEffect(x, y, angle, touchId = 0) {
         const effect = document.createElement('div');
         effect.className = 'cut-effect';
         effect.style.left = `${x}px`;
@@ -64,13 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
         simulationArea.appendChild(effect);
 
-        // Анимация появления и исчезновения эффекта
         setTimeout(() => {
             effect.style.opacity = '0';
             effect.style.transition = 'opacity 0.5s ease';
         }, 100);
 
-        // Удаление элемента после анимации
         setTimeout(() => {
             if (effect.parentNode) {
                 effect.parentNode.removeChild(effect);
@@ -78,40 +56,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 600);
     }
 
-    // Создание визуальной линии разреза
-    function createCutLine(x, y, angle, length) {
+    function createCutLine(touchId, startX, startY, endX, endY) {
         const line = document.createElement('div');
         line.className = 'cut-line';
-        line.style.left = `${x}px`;
-        line.style.top = `${y}px`;
+        line.id = `line-${touchId}`;
+
+        const dx = endX - startX;
+        const dy = endY - startY;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+        line.style.left = `${startX}px`;
+        line.style.top = `${startY}px`;
         line.style.width = `${length}px`;
         line.style.transform = `rotate(${angle}deg)`;
         line.style.opacity = '0.8';
 
         simulationArea.appendChild(line);
-
-        // Исчезновение линии через некоторое время
-        setTimeout(() => {
-            line.style.opacity = '0';
-            line.style.transition = 'opacity 0.5s ease';
-        }, 300);
-
-        // Удаление линии после анимации
-        setTimeout(() => {
-            if (line.parentNode) {
-                line.parentNode.removeChild(line);
-            }
-        }, 800);
-
         return line;
     }
-
-    // Разрезание ленты в заданной позиции
-    function cutRibbonAt(x) {
-        // Проверка, что разрез находится в пределах ленты
+    function cutRibbonAt(x, touchId = 0) {
         if (x < 50 || x > areaRect.width - 50) return;
 
-        // Поиск части ленты, в которой происходит разрез
         let targetPart = null;
         let partIndex = -1;
         let partStartX = 0;
@@ -132,15 +98,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (!targetPart) return;
 
-        // Проверка, что разрез не слишком близко к краям части
         const partWidth = targetPart.offsetWidth;
         const cutPositionInPart = x - partStartX;
 
         if (cutPositionInPart < 30 || cutPositionInPart > partWidth - 30) {
-            return; // Не разрезаем слишком близко к краям
+            return;
         }
 
-        // Создание двух новых частей
         const leftPart = document.createElement('div');
         leftPart.className = 'ribbon-part';
         leftPart.style.left = `${partStartX}px`;
@@ -151,33 +115,26 @@ document.addEventListener('DOMContentLoaded', function () {
         rightPart.style.left = `${x}px`;
         rightPart.style.width = `${partWidth - cutPositionInPart}px`;
 
-        // Добавление новых частей в область симуляции
         const ribbonContainer = document.querySelector('.ribbon-container');
         ribbonContainer.appendChild(leftPart);
         ribbonContainer.appendChild(rightPart);
 
-        // Удаление исходной части
         if (targetPart.parentNode) {
             targetPart.parentNode.removeChild(targetPart);
         }
 
-        // Обновление массива частей
         ribbonParts.splice(partIndex, 1, leftPart, rightPart);
 
-        // Обновление статистики
         cutCount++;
 
-        // Создание эффекта разрезания
-        const angle = 0; // Случайный угол для эффекта
-        createCutEffect(x, areaRect.height / 2, angle);
+        const angle = 0;
+        createCutEffect(x, areaRect.height / 2, angle, touchId);
 
-        // Анимация разъезжания частей
         setTimeout(() => {
             leftPart.style.transform = `translateX(-${15}px)`;
             rightPart.style.transform = `translateX(${15}px)`;
         }, 0);
 
-        // Показ сообщения при первом разрезе
         console.log(ribbonParts);
 
         if (cutCount === 2 && ribbonParts.length > 2) {
@@ -196,83 +153,166 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     function onCutStart(event) {
         event.preventDefault();
+        updateAreaRect();
 
-        isCutting = true;
-        const coords = getEventCoordinates(event);
-        cutStartPoint = coords;
+        if (event.type.includes('touch')) {
+            for (let i = 0; i < event.changedTouches.length; i++) {
+                const touch = event.changedTouches[i];
+                const touchId = touch.identifier;
+                const x = touch.clientX - areaRect.left;
+                const y = touch.clientY - areaRect.top;
 
-        // Показ ножниц в начальной точке
-        scissors.style.opacity = '1';
-        scissors.style.left = `${coords.x}px`;
-        scissors.style.top = `${coords.y}px`;
+                activeTouches.set(touchId, {
+                    startX: x,
+                    startY: y,
+                    line: null,
+                    scissors: createScissors(touchId, x, y)
+                });
+            }
+        }
+        else {
+            const x = event.clientX - areaRect.left;
+            const y = event.clientY - areaRect.top;
+
+            activeTouches.set(0, {
+                startX: x,
+                startY: y,
+                line: null,
+                scissors: createScissors(0, x, y)
+            });
+        }
+        console.log(cutStartPoints);
     }
 
     function onCutMove(event) {
-        event.preventDefault();
-        if (!isCutting) return;
+        if (event.type.includes('touch')) {
+            for (let i = 0; i < event.changedTouches.length; i++) {
+                const touch = event.changedTouches[i];
+                const touchId = touch.identifier;
 
-        const coords = getEventCoordinates(event);
+                if (!activeTouches.has(touchId)) continue;
 
-        // Обновление позиции ножниц
-        scissors.style.left = `${coords.x}px`;
-        scissors.style.top = `${coords.y}px`;
+                const touchData = activeTouches.get(touchId);
+                const x = touch.clientX - areaRect.left;
+                const y = touch.clientY - areaRect.top;
 
-        // Создание линии разреза
-        if (currentCutLine && currentCutLine.parentNode) {
-            currentCutLine.parentNode.removeChild(currentCutLine);
-        }
+                if (touchData.scissors) {
+                    touchData.scissors.style.left = `${x}px`;
+                    touchData.scissors.style.top = `${y}px`;
+                }
 
-        if (cutStartPoint) {
-            const dx = coords.x - cutStartPoint.x;
-            const dy = coords.y - cutStartPoint.y;
-            const length = Math.sqrt(dx * dx + dy * dy);
-            const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+                if (touchData.line && touchData.line.parentNode) {
+                    touchData.line.parentNode.removeChild(touchData.line);
+                }
 
-            if (length > 20) {
-                currentCutLine = createCutLine(cutStartPoint.x, cutStartPoint.y, angle, length);
+                const dx = x - touchData.startX;
+                const dy = y - touchData.startY;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance > 30) {
+                    touchData.line = createCutLine(touchId, touchData.startX, touchData.startY, x, y);
+                }
             }
         }
+        else {
+            const touchId = 0;
+
+            if (!activeTouches.has(touchId)) return;
+
+            const x = event.clientX - areaRect.left;
+            const y = event.clientY - areaRect.top;
+            const touchData = activeTouches.get(touchId);
+            if (touchData.scissors) {
+                touchData.scissors.style.left = `${x}px`;
+                touchData.scissors.style.top = `${y}px`;
+            }
+
+            if (touchData.line && touchData.line.parentNode) {
+                touchData.line.parentNode.removeChild(touchData.line);
+            }
+
+            const dx = x - touchData.startX;
+            const dy = y - touchData.startY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance > 30) {
+                touchData.line = createCutLine(touchId, touchData.startX, touchData.startY, x, y);
+            }
+        }
+
     }
     function onCutEnd(event) {
         event.preventDefault();
-        if (!isCutting) return;
+        if (event.type.includes('touch')) {
+            for (let i = 0; i < event.changedTouches.length; i++) {
+                const touch = event.changedTouches[i];
+                const touchId = touch.identifier;
 
-        isCutting = false;
-        const coords = getEventCoordinates(event);
+                if (!activeTouches.has(touchId)) continue;
 
-        // Скрытие ножниц
-        setTimeout(() => {
-            scissors.style.opacity = '0';
-        }, 300);
+                const touchData = activeTouches.get(touchId);
+                const y = touch.clientY - areaRect.top;
+                const x = touch.clientX - areaRect.left;
 
-        // Удаление линии разреза
-        if (currentCutLine && currentCutLine.parentNode) {
-            currentCutLine.parentNode.removeChild(currentCutLine);
-            currentCutLine = null;
+                const dy = y - touchData.startY;
+                if (Math.abs(dy) > 30) {
+                    const cutX = (touchData.startX + x) / 2;
+                    cutRibbonAt(cutX, touchId);
+                }
+
+                if (touchData.line && touchData.line.parentNode) {
+                    touchData.line.parentNode.removeChild(touchData.line);
+                }
+
+                if (touchData.scissors) {
+                    touchData.scissors.style.opacity = '0';
+                    setTimeout(() => {
+                        if (touchData.scissors && touchData.scissors.parentNode) {
+                            touchData.scissors.parentNode.removeChild(touchData.scissors);
+                        }
+                    }, 300);
+                }
+
+                activeTouches.delete(touchId);
+            }
         }
+        else {
+            const touchId = 0;
 
-        // Если начальная и конечная точки достаточно далеко, выполняем разрез
-        if (cutStartPoint) {
-            const dx = coords.y - cutStartPoint.y;
-            const distance = Math.abs(dx);
+            if (!activeTouches.has(touchId)) return;
 
-            if (distance > 90) {
-                // Разрез в середине между начальной и конечной точками
-                const cutX = (cutStartPoint.x + coords.x) / 2;
-                cutRibbonAt(cutX);
+            const touchData = activeTouches.get(touchId);
+            const y = event.clientY - areaRect.top;
+            const x = event.clientX - areaRect.left;
+
+            const dy = y - touchData.startY;
+            if (Math.abs(dy) > 30) {
+                const cutX = (touchData.startX + x) / 2;
+                cutRibbonAt(cutX, touchId);
             }
 
-            cutStartPoint = null;
+            if (touchData.line && touchData.line.parentNode) {
+                touchData.line.parentNode.removeChild(touchData.line);
+            }
+
+            if (touchData.scissors) {
+                touchData.scissors.style.opacity = '0';
+                setTimeout(() => {
+                    if (touchData.scissors && touchData.scissors.parentNode) {
+                        touchData.scissors.parentNode.removeChild(touchData.scissors);
+                    }
+                }, 300);
+            }
+
+            activeTouches.delete(touchId);
         }
     }
-    // Обработчики событий мыши
     simulationArea.addEventListener('mousedown', onCutStart);
 
     simulationArea.addEventListener('mousemove', onCutMove);
 
     simulationArea.addEventListener('mouseup', onCutEnd);
 
-    // Обработчики событий для сенсорных устройств
     simulationArea.addEventListener('touchstart', onCutStart);
 
     simulationArea.addEventListener('touchmove', onCutMove);
@@ -280,10 +320,8 @@ document.addEventListener('DOMContentLoaded', function () {
     simulationArea.addEventListener('touchend', onCutEnd);
 
 
-    // Инициализация
     updateAreaRect();
 
-    // Автоматическое обновление размеров при изменении ориентации устройства
     window.addEventListener('orientationchange', function () {
         setTimeout(updateAreaRect, 100);
     });

@@ -48,13 +48,13 @@ body {
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 10rem;
+    gap: 6rem;
     padding: 10rem 0 0;
 }
 .separator {
     background-color: #f5f5f5;
     width: .5rem;
-    height: 100%;
+    height: 85%;
 }
 .logos-wrapper img {
     display: block;
@@ -102,7 +102,7 @@ body {
     top: -3rem;
     left: 0;
     width: 100%;
-    height: 120px;
+    height: 15rem;
     background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
     opacity: 0.3;
     filter: blur(15px);
@@ -225,11 +225,6 @@ footer p {
         height: 300px;
     }
 
-    .ribbon,
-    .ribbon-part {
-        height: 60px;
-    }
-
     .controls {
         flex-direction: column;
         align-items: center;
@@ -263,10 +258,6 @@ footer p {
         height: 250px;
     }
 
-    .ribbon,
-    .ribbon-part {
-        height: 50px;
-    }
 
     .stat-box {
         min-width: 120px;
