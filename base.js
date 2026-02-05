@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const effect = document.createElement('div');
         effect.className = 'cut-effect';
         effect.style.left = `${x}px`;
-        effect.style.top = `${y - convertRemToPixels(15)}px`;
+        effect.style.top = `${y - convertRemToPixels(10)}px`;
         effect.style.transform = `rotate(${angle}deg)`;
         effect.style.opacity = '0.7';
 
