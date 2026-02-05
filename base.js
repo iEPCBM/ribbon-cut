@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const x = touch.clientX - areaRect.left;
 
                 const dy = y - touchData.startY;
-                if (Math.abs(dy) > 30) {
+                if (Math.abs(dy) > 60) {
                     const cutX = (touchData.startX + x) / 2;
                     cutRibbonAt(cutX, touchId);
                 }
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const x = event.clientX - areaRect.left;
 
             const dy = y - touchData.startY;
-            if (Math.abs(dy) > 30) {
+            if (Math.abs(dy) > 60) {
                 const cutX = (touchData.startX + x) / 2;
                 cutRibbonAt(cutX, touchId);
             }
