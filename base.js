@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const dy = y - touchData.startY;
                 const distance = Math.sqrt(dx * dx + dy * dy);
 
-                if (distance > 30) {
+                if (distance > convertRemToPixels(1)) {
                     touchData.line = createCutLine(touchId, touchData.startX, touchData.startY, x, y);
                 }
             }
@@ -235,7 +235,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const dy = y - touchData.startY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance > 30) {
+            if (distance >  convertRemToPixels(1)) {
                 touchData.line = createCutLine(touchId, touchData.startX, touchData.startY, x, y);
             }
         }
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const x = touch.clientX - areaRect.left;
 
                 const dy = y - touchData.startY;
-                if (Math.abs(dy) > 60) {
+                if (Math.abs(dy) > convertRemToPixels(14)) {
                     const cutX = (touchData.startX + x) / 2;
                     cutRibbonAt(cutX, touchId);
                 }
@@ -286,7 +286,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const x = event.clientX - areaRect.left;
 
             const dy = y - touchData.startY;
-            if (Math.abs(dy) > 60) {
+            if (Math.abs(dy) > convertRemToPixels(14)) {
                 const cutX = (touchData.startX + x) / 2;
                 cutRibbonAt(cutX, touchId);
             }
