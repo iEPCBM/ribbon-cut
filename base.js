@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     const simulationArea = document.getElementById('simulationArea');
     const ribbon = document.getElementById('ribbon');
+    const ribbon_container = document.getElementById('ribbon-container');
 
     let cutCount = 0;
     let ribbonParts = [ribbon];
@@ -149,6 +150,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
             setTimeout(() => {
                 centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
+                centerRibbon.style.transform = `translateX(${0}px) translateY(-${centerRibbon.getBoundingClientRect().top -simulationArea.getBoundingClientRect().top - convertRemToPixels(15)}px)`;
+                
             }, 1000);
 
         }

@@ -95,36 +95,76 @@ body {
     position: relative;
     height: 12rem;
     width: 100%;
-    background-color: #b71c1c;    box-shadow: 0 1rem 1rem rgba(183, 28, 28, 0.3);
+    background-color: #b71c1c;
+    box-shadow: 0 1rem 1rem rgba(183, 28, 28, 0.3);
     border-radius: 0;
     transition: transform 0.3s ease;
 }
 
+
+.ribbon::before,
+.ribbon-part::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 0%;
+    width: 100%;
+    height: 14rem;
+    background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
+    opacity: 0.4;
+    filter: blur(15px);
+    border-radius: 3rem 0 0 3rem;
+    transition: opacity 1s ease;
+}
+
+.ribbon-part.ribbon-part-active {
+    transition: all 2s ease;
+}
 .ribbon-part-active::before {
+    content: '';
+    position: absolute;
+    top: -1rem;
+    left: 0%;
+    width: 100%;
+    height: 14rem;
+    background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
+    opacity: 0;
+    filter: blur(15px);
+    border-radius: 3rem 0 0 3rem;
+    transition: opacity 1s ease;
+}
+.ribbon-part-active {
+    position: absolute;
+    z-index: 1;
+}
+.ribbon-part-active::after {
     content: '';
     position: absolute;
     top: -3rem;
     left: -5%;
     width: 110%;
     height: 18rem;
-    background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
+    background: linear-gradient(to right, #e78f2e, #ce6d20, #e78f2e);
     opacity: 0;
+    visibility: hidden;
     animation: 2s ease-in-out 1s ribbon-active-anim;
     animation-fill-mode: forwards;
     filter: blur(15px);
     border-radius: 3rem 0 0 3rem;
-}
-
-.ribbon-part.ribbon-part-active {
-    transition: all 2s ease;
+    z-index: -1;
 }
 
 @keyframes ribbon-active-anim {
-    from {
+    0% {
         opacity: 0;
+        visibility: hidden;
     }
-    to {
+    1% {
+        visibility: initial;
+    }
+    100% {
         opacity: 0.5;
+        visibility: initial;
     }
 }
 
