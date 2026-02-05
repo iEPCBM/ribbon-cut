@@ -68,15 +68,21 @@ body {
     font-size: 1.2rem;
     margin-bottom: 20px;
 }
-
-
-.simulation-area {
-    position: relative;
+.simulation-area-wrapper {
+    display: flex;
+    align-items: center;
     width: 100%;
     height: 100%;
     overflow: hidden;
+}
+
+.simulation-area {
+    position: relative;
+    overflow: hidden;
     cursor: crosshair;
     touch-action: none;
+    width: 100%;
+    height: 75em;
 }
 
 .ribbon-container {
