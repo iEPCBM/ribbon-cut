@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const jsConfetti = new JSConfetti();
-
-
     const simulationArea = document.getElementById('simulationArea');
     const ribbon = document.getElementById('ribbon');
 
@@ -139,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (cutCount === 2 && ribbonParts.length > 2) {
             setTimeout(() => {
+                const jsConfetti = new JSConfetti();
                 jsConfetti.addConfetti();
             }, 300);
 

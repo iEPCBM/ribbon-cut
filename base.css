@@ -2,7 +2,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    user-select: none;
     font-size: 0.5vw;
 }
 
@@ -10,7 +9,6 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     color: #333;
-    overflow-x: hidden;
     
     background-color: #1d1d1b;
 }
@@ -213,11 +211,13 @@ body {
 
 footer {
     margin-top: 1rem;
-    color: #666;
+    color: #1d1d1b;
     padding: 1rem;
-    width: 100%;
+    width: 33%;
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
 }
 footer p {
-    text-align: center;
     font-size: 2rem;
 }
