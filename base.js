@@ -142,14 +142,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
             const leftRibbon = ribbonParts[0];
             const rightRibbon = ribbonParts[ribbonParts.length - 1];
+            const centerRibbon = ribbonParts[1];
             rightRibbon.classList.add("ribbon-right-anim");
             leftRibbon.classList.add("ribbon-left-anim");
+            centerRibbon.classList.add("ribbon-part-active");
+
+            setTimeout(() => {
+                centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
+            }, 1000);
 
         }
 
         return true;
     }
     function onCutStart(event) {
+        if (cutCount >= 2)
+            return;
         event.preventDefault();
         updateAreaRect();
 

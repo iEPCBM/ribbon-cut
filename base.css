@@ -9,6 +9,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     min-height: 100vh;
     color: #333;
+    overflow: hidden;
     
     background-color: #1d1d1b;
 }
@@ -99,20 +100,33 @@ body {
     transition: transform 0.3s ease;
 }
 
-.ribbon::before,
-.ribbon-part::before {
+.ribbon-part-active::before {
     content: '';
     position: absolute;
     top: -3rem;
-    left: 0;
-    width: 100%;
-    height: 15rem;
+    left: -5%;
+    width: 110%;
+    height: 18rem;
     background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
-    opacity: 0.3;
+    opacity: 0;
+    animation: 2s ease-in-out 1s ribbon-active-anim;
+    animation-fill-mode: forwards;
     filter: blur(15px);
     border-radius: 3rem 0 0 3rem;
 }
 
+.ribbon-part.ribbon-part-active {
+    transition: all 2s ease;
+}
+
+@keyframes ribbon-active-anim {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.5;
+    }
+}
 
 .ribbon-part {
     position: absolute;
