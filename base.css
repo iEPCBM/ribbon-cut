@@ -3,15 +3,20 @@
     padding: 0;
     box-sizing: border-box;
     font-size: 0.5vw;
-}
 
+    --color-background: #1d1d1d;
+    --color-generic-text: #565656;
+    --co0lor-white-generic: #f5f5f5;
+    --color-ribbon: #b71c1c;
+    --color-ribbon-shadow: rgba(207, 44, 44, 0.341);
+}
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Montserrat';
     min-height: 100vh;
-    color: #333;
+    color: var(--color-generic-text);
     overflow: hidden;
     
-    background-color: #1d1d1b;
+    background-color: var(--color-background);
 }
 .signs-bg-wrapper {
     width: 100%;
@@ -51,7 +56,7 @@ body {
     padding: 10rem 0 0;
 }
 .separator {
-    background-color: #f5f5f5;
+    background-color: var(--co0lor-white-generic);
     width: .5rem;
     height: 85%;
 }
@@ -62,8 +67,13 @@ body {
     object-fit: contain;
 }
 
+.logos-wrapper img.img-reduced {
+    width: 15rem;
+}
+
+
 .subtitle {
-    color: #555;
+    color: var(--color-generic-text);
     font-size: 1.2rem;
     margin-bottom: 20px;
 }
@@ -95,8 +105,8 @@ body {
     position: relative;
     height: 12rem;
     width: 100%;
-    background-color: #b71c1c;
-    box-shadow: 0 1rem 1rem rgba(183, 28, 28, 0.3);
+    background-color: var(--color-ribbon);
+    box-shadow: 0 1rem 1rem var(--color-ribbon-shadow);
     border-radius: 0;
     transition: transform 0.3s ease;
 }
@@ -198,7 +208,8 @@ body {
     }
     99% {
         transform: rotate(-90deg);
-        opacity: 1;
+        opacity: 0.5;
+        background: linear-gradient(to right, #b71c1c00, #d32f2f75, #b71c1c);
     }
     100% {
         transform: rotate(90deg);
@@ -209,11 +220,14 @@ body {
 @keyframes ribbon-l-animate {
     0% {
         transform: rotate(0);
+        background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
         opacity: 1;
     }
     99% {
         transform: rotate(90deg);
-        opacity: 1;
+        opacity: 0.5;
+        
+        background: linear-gradient(to right, #b71c1c, #d32f2f75, #b71c1c00);
     }
     100% {
         transform: rotate(90deg);
