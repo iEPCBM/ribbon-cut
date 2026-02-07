@@ -2,6 +2,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const simulationArea = document.getElementById('simulationArea');
     const ribbon = document.getElementById('ribbon');
     const ribbon_container = document.getElementById('ribbon-container');
+    const centerLogo = document.getElementById('central-logo');
+    const lwh = document.getElementsByClassName('lwh');
 
     let cutCount = 0;
     let ribbonParts = [ribbon];
@@ -146,12 +148,23 @@ document.addEventListener('DOMContentLoaded', function () {
             const centerRibbon = ribbonParts[1];
             rightRibbon.classList.add("ribbon-right-anim");
             leftRibbon.classList.add("ribbon-left-anim");
-            centerRibbon.classList.add("ribbon-part-active");
+            for (let index = 0; index < lwh.length; index++) {
+                const element = lwh[index];
+
+                element.classList.add("hidden");
+            }
+
+            centerLogo.classList.add("center-logo-active");
+            console.log(areaRect.width);
 
             setTimeout(() => {
-                centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
-                centerRibbon.style.transform = `translateX(${0}px) translateY(-${centerRibbon.getBoundingClientRect().top -simulationArea.getBoundingClientRect().top - convertRemToPixels(15)}px)`;
                 
+                centerRibbon.classList.add("ribbon-part-active");
+                //centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
+                //centerRibbon.style.transform = `translateX(${0}px) translateY(-${centerRibbon.getBoundingClientRect().top -simulationArea.getBoundingClientRect().top - convertRemToPixels(15)}px)`;
+
+                centerLogo.style.transform = `scale(2) translateX(${-centerLogo.getBoundingClientRect().left*2 + areaRect.width - centerLogo.getBoundingClientRect().width }px) translateY(${(convertRemToPixels(15))}px)`;
+
             }, 1000);
 
         }
@@ -244,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const dy = y - touchData.startY;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance >  convertRemToPixels(1)) {
+            if (distance > convertRemToPixels(1)) {
                 touchData.line = createCutLine(touchId, touchData.startX, touchData.startY, x, y);
             }
         }

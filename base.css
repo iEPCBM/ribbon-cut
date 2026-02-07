@@ -4,9 +4,10 @@
     box-sizing: border-box;
     font-size: 0.5vw;
 
-    --color-background: #1d1d1d;
+    --color-background: #f5f5f5;
     --color-generic-text: #565656;
-    --co0lor-white-generic: #f5f5f5;
+    --color-white-generic: #f5f5f5;
+    --color-black-generic: #1d1d1d;
     --color-ribbon: #b71c1c;
     --color-ribbon-shadow: rgba(207, 44, 44, 0.341);
 }
@@ -43,32 +44,52 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #1d1d1b;
+    background-color: var(--color-background);
     position: relative;
 }
 
 .logos-wrapper {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: center;
     align-items: center;
-    gap: 6rem;
+    gap: 3rem;
     padding: 10rem 0 0;
 }
+
+.central-logo.center-logo-active {
+    transition: 3s;
+    transform-origin: top left;
+}
+.lwh {
+    opacity: 1;
+    transition: 1s;
+}
+.hidden {
+    opacity: 0;
+}
 .separator {
-    background-color: var(--co0lor-white-generic);
+    background-color: var(--color-black-generic);
     width: .5rem;
-    height: 85%;
+    height: 10rem;
 }
 .logos-wrapper img {
     display: block;
-    width: 20rem;
-    max-height: 20rem;
+    width: 12rem;
+    height: 12rem;
     object-fit: contain;
 }
-
+.logos-wrapper p {
+    font-size: 8em;
+    font-weight: bold;
+    text-align: center;
+}
 .logos-wrapper img.img-reduced {
-    width: 15rem;
+    width: 5rem;
+}
+.logos-wrapper p.p-txt-l {
+    font-size: 3rem;
 }
 
 
@@ -129,6 +150,7 @@ body {
 
 .ribbon-part.ribbon-part-active {
     transition: all 2s ease;
+    opacity: 0;
 }
 .ribbon-part-active::before {
     content: '';
@@ -235,6 +257,14 @@ body {
     }
 }
 
+.central-logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
 .cut-line {
     position: absolute;
     height: 4px;
@@ -279,7 +309,7 @@ body {
 
 footer {
     margin-top: 1rem;
-    color: #1d1d1b;
+    color: var(--color-background);
     padding: 1rem;
     width: 33%;
     position: absolute;
@@ -288,4 +318,60 @@ footer {
 }
 footer p {
     font-size: 2rem;
+}
+
+.ribbon::after,
+.ribbon-part::after {
+    content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: -webkit-gradient(linear, 0 -25%, 100% top, color-stop(0%, rgba(255, 255, 255, 0)), color-stop(20%, rgba(255, 255, 255, 0)), color-stop(30%, rgba(0, 0, 0, 0.04)), color-stop(40%, rgba(255, 255, 255, 0.2)), color-stop(60%, rgba(255, 255, 255, 0)), color-stop(65%, rgba(255, 255, 255, 0.2)), color-stop(80%, rgba(0, 0, 0, 0.05)), color-stop(100%, rgba(255, 255, 255, 0)));
+  background-size: 200%;
+  animation-name: flutter;
+  animation-duration: 8s;
+  animation-timing-function: cubic-bezier(0.16, 0.14, 0.82, 0.73);
+  animation-iteration-count: infinite;
+}
+@keyframes flutter {
+  0% {
+    background-position: -200% 0px;
+  }
+  30% {
+    background-position: -60% 5px;
+  }
+  70% {
+    background-position: 70% -5px;
+  }
+  100% {
+    background-position: 200% 0px;
+  }
+}
+@keyframes wave {
+  0% {
+    box-shadow: 4px 5px 5px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transform: translate3d(0, 0, 0) rotateZ(0) rotateY(22deg);
+  }
+  20% {
+    box-shadow: 4px 5px 15px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transform: translate3d(0, 0, 0) rotateZ(0) rotateY(0deg);
+  }
+  40% {
+    box-shadow: 4px 5px 20px 0 rgba(0, 0, 0, 0.4);
+    -webkit-transform: translate3d(0, 0, 0) rotateZ(0) rotateY(-22deg);
+  }
+  60% {
+    box-shadow: 4px 5px 5px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transform: translate3d(0, 0, 0) rotateZ(0) rotateY(0deg);
+  }
+  80% {
+    box-shadow: 4px 5px 5px 0 rgba(0, 0, 0, 0.3);
+    -webkit-transform: translate3d(0, 0, 0) rotateZ(0) rotateY(16deg);
+  }
+  100% {
+    box-shadow: 4px 5px 5px 0 rgba(0, 0, 0, 0.1);
+    -webkit-transform: translate3d(0, 0, 0) rotateZ(0) rotateY(22deg);
+  }
 }
