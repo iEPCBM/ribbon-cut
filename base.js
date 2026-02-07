@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const ribbon_container = document.getElementById('ribbon-container');
     const centerLogo = document.getElementById('central-logo');
     const lwh = document.getElementsByClassName('lwh');
-
+    const fanfare = new Audio('./festive-fanfare.wav');
     let cutCount = 0;
     let ribbonParts = [ribbon];
     let cutStartPoints = [null, null];
@@ -138,6 +138,7 @@ document.addEventListener('DOMContentLoaded', function () {
         console.log(ribbonParts);
 
         if (cutCount === 2 && ribbonParts.length > 2) {
+            fanfare.play();
             setTimeout(() => {
                 const jsConfetti = new JSConfetti();
                 jsConfetti.addConfetti();
