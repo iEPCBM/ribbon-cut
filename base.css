@@ -47,7 +47,15 @@ body {
     background-color: var(--color-background);
     position: relative;
 }
-
+.subtitle-c {
+    font-size: 6rem;
+    text-align: center;
+    position: absolute;
+    top: 70%;
+    left: 0;
+    width: 100%;
+    user-select: none;
+}
 .logos-wrapper {
     position: relative;
     display: flex;
@@ -124,7 +132,7 @@ body {
 
 .ribbon {
     position: relative;
-    height: 12rem;
+    height: 16rem;
     width: 100%;
     background-color: var(--color-ribbon);
     box-shadow: 0 1rem 1rem var(--color-ribbon-shadow);
@@ -140,7 +148,7 @@ body {
     top: -1rem;
     left: 0%;
     width: 100%;
-    height: 14rem;
+    height: 16rem;
     background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
     opacity: 0.4;
     filter: blur(15px);
@@ -158,7 +166,7 @@ body {
     top: -1rem;
     left: 0%;
     width: 100%;
-    height: 14rem;
+    height: 16rem;
     background: linear-gradient(to right, #b71c1c, #d32f2f, #b71c1c);
     opacity: 0;
     filter: blur(15px);
@@ -203,7 +211,7 @@ body {
 .ribbon-part {
     position: absolute;
     top: 50%;
-    height: 12rem;
+    height: 16rem;
     background-color: #b71c1c;
     box-shadow: 0 1rem 3rem rgba(183, 28, 28, 0.3);
 
