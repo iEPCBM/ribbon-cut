@@ -163,7 +163,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 //centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
                 //centerRibbon.style.transform = `translateX(${0}px) translateY(-${centerRibbon.getBoundingClientRect().top -simulationArea.getBoundingClientRect().top - convertRemToPixels(15)}px)`;
 
-                centerLogo.style.transform = `translateX(${-centerLogo.getBoundingClientRect().left + (areaRect.width-centerLogo.getBoundingClientRect().width*2)/2 }px) translateY(${(convertRemToPixels(15))}px) scale(2)`;
+                centerLogo.style.transform = `translateX(${-centerLogo.getBoundingClientRect().left + (areaRect.width-centerLogo.getBoundingClientRect().width*2)/2 }px) translateY(${
+                    -centerLogo.getBoundingClientRect().top + (window.innerHeight-centerLogo.getBoundingClientRect().height*2)/2 
+                }px) scale(2)`;
 
             }, 1000);
 
