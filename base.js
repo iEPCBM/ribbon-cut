@@ -156,14 +156,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
             centerLogo.classList.add("center-logo-active");
             console.log(areaRect.width);
-
+            centerLogo.style.transform = '';
             setTimeout(() => {
                 
                 centerRibbon.classList.add("ribbon-part-active");
                 //centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
                 //centerRibbon.style.transform = `translateX(${0}px) translateY(-${centerRibbon.getBoundingClientRect().top -simulationArea.getBoundingClientRect().top - convertRemToPixels(15)}px)`;
 
-                centerLogo.style.transform = `scale(2) translateX(${-centerLogo.getBoundingClientRect().left*2 + areaRect.width - centerLogo.getBoundingClientRect().width }px) translateY(${(convertRemToPixels(15))}px)`;
+                centerLogo.style.transform = `translateX(${-centerLogo.getBoundingClientRect().left + (areaRect.width-centerLogo.getBoundingClientRect().width*2)/2 }px) translateY(${(convertRemToPixels(15))}px) scale(2)`;
 
             }, 1000);
 
