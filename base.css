@@ -48,13 +48,15 @@ body {
     position: relative;
 }
 .subtitle-c {
-    font-size: 6rem;
+    font-size: 10rem;
     text-align: center;
     position: absolute;
     top: 70%;
     left: 0;
     width: 100%;
     user-select: none;
+    color: #812324;
+    font-weight: bold;
 }
 .logos-wrapper {
     position: relative;
@@ -125,7 +127,7 @@ body {
 
 .ribbon-container {
     position: absolute;
-    top: 40%;
+    top: 30%;
     left: 0;
     width: 100%;
 }
