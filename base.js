@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         if (maxDist < dist)
                             maxDist = dist;
                     });
-                    if (maxDist > convertRemToPixels(10)) {
+                    if (maxDist > convertRemToPixels(10) || activeTouches.size == 1) {
                         activeTouches.set(touchId, {
                             startX: x,
                             startY: y,
