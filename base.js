@@ -185,13 +185,24 @@ document.addEventListener('DOMContentLoaded', function () {
                 const touchId = touch.identifier;
                 const x = touch.clientX - areaRect.left;
                 const y = touch.clientY - areaRect.top;
-                if (activeTouches.size < 2)
-                    activeTouches.set(touchId, {
-                        startX: x,
-                        startY: y,
-                        line: null,
-                        scissors: createScissors(touchId, x, y)
+                if (activeTouches.size < 2) {
+                    let maxDist = 0;
+                    activeTouches.forEach((e) => {
+                        let dx = e.startX - x;
+                        let dy = e.startY - Y;
+                        let dist = Math.sqrt(dx * dx + dy * dy);
+                        if (maxDist < dist)
+                            maxDist = dist;
                     });
+                    if (maxDist > convertRemToPixels(3)) {
+                        activeTouches.set(touchId, {
+                            startX: x,
+                            startY: y,
+                            line: null,
+                            scissors: createScissors(touchId, x, y)
+                        });
+                    }
+                }
             }
         }
         else {
