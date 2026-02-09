@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function () {
         areaRect = simulationArea.getBoundingClientRect();
     }
 
+    console.log(convertRemToPixels(10));
+
+
     window.addEventListener('resize', updateAreaRect);
 
     function convertRemToPixels(rem) {
@@ -187,14 +190,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 const y = touch.clientY - areaRect.top;
                 if (activeTouches.size < 2) {
                     let maxDist = 0;
-                    activeTouches.forEach((e) => {
-                        let dx = e.startX - x;
-                        let dy = e.startY - Y;
+                    for (let index = 0; index < activeTouches.values.length; index++) {
+                        const element = activeTouches.values[index];
+                        let dx = element.startX - x;
+                        let dy = element.startY - Y;
                         let dist = Math.sqrt(dx * dx + dy * dy);
                         if (maxDist < dist)
                             maxDist = dist;
-                    });
-                    if (maxDist > convertRemToPixels(10) || activeTouches.size == 0) { 
+                    }
+
+                    if (maxDist > convertRemToPixels(10) || activeTouches.size == 0) {
                         activeTouches.set(touchId, {
                             startX: x,
                             startY: y,
