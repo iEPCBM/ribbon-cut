@@ -181,7 +181,7 @@ document.addEventListener('DOMContentLoaded', function () {
         updateAreaRect();
 
         if (event.type.includes('touch')) {
-            for (let i = 0; i < event.changedTouches.length; i++) {
+            for (let i = 0; i < Math.max(event.changedTouches.length, 2); i++) {
                 const touch = event.changedTouches[i];
                 const touchId = touch.identifier;
                 const x = touch.clientX - areaRect.left;
@@ -211,7 +211,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function onCutMove(event) {
         if (event.type.includes('touch')) {
-            for (let i = 0; i < event.changedTouches.length; i++) {
+            for (let i = 0; i < Math.max(event.changedTouches.length, 2); i++) {
                 const touch = event.changedTouches[i];
                 const touchId = touch.identifier;
 

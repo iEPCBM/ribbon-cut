@@ -12,7 +12,7 @@
     --color-ribbon-shadow: rgba(207, 44, 44, 0.341);
 }
 body {
-    font-family: 'Montserrat';
+    font-family: "Montserrat", sans-serif;
     min-height: 100vh;
     color: var(--color-generic-text);
     overflow: hidden;
@@ -67,7 +67,9 @@ body {
     gap: 3rem;
     padding: 10rem 0 0;
 }
-
+.gzp {
+    color: #080886
+}
 .central-logo.center-logo-active {
     transition: 3s;
     transform-origin: top left;
