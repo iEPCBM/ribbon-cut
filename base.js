@@ -159,14 +159,13 @@ document.addEventListener('DOMContentLoaded', function () {
             console.log(areaRect.width);
             centerLogo.style.transform = '';
             setTimeout(() => {
-                
+
                 centerRibbon.classList.add("ribbon-part-active");
                 //centerRibbon.style.left = `${areaRect.width/2 - centerRibbon.offsetWidth/2}px`;
                 //centerRibbon.style.transform = `translateX(${0}px) translateY(-${centerRibbon.getBoundingClientRect().top -simulationArea.getBoundingClientRect().top - convertRemToPixels(15)}px)`;
 
-                centerLogo.style.transform = `translateX(${-centerLogo.getBoundingClientRect().left + (areaRect.width-centerLogo.getBoundingClientRect().width*2)/2 }px) translateY(${
-                    -centerLogo.getBoundingClientRect().top + (window.innerHeight-centerLogo.getBoundingClientRect().height*2)/2 
-                }px) scale(2)`;
+                centerLogo.style.transform = `translateX(${-centerLogo.getBoundingClientRect().left + (areaRect.width - centerLogo.getBoundingClientRect().width * 2) / 2}px) translateY(${-centerLogo.getBoundingClientRect().top + (window.innerHeight - centerLogo.getBoundingClientRect().height * 2) / 2
+                    }px) scale(2)`;
 
             }, 1000);
 
@@ -186,25 +185,26 @@ document.addEventListener('DOMContentLoaded', function () {
                 const touchId = touch.identifier;
                 const x = touch.clientX - areaRect.left;
                 const y = touch.clientY - areaRect.top;
-
-                activeTouches.set(touchId, {
-                    startX: x,
-                    startY: y,
-                    line: null,
-                    scissors: createScissors(touchId, x, y)
-                });
+                if (activeTouches.size < 2)
+                    activeTouches.set(touchId, {
+                        startX: x,
+                        startY: y,
+                        line: null,
+                        scissors: createScissors(touchId, x, y)
+                    });
             }
         }
         else {
             const x = event.clientX - areaRect.left;
             const y = event.clientY - areaRect.top;
 
-            activeTouches.set(0, {
-                startX: x,
-                startY: y,
-                line: null,
-                scissors: createScissors(0, x, y)
-            });
+            if (activeTouches.size < 2)
+                activeTouches.set(0, {
+                    startX: x,
+                    startY: y,
+                    line: null,
+                    scissors: createScissors(0, x, y)
+                });
         }
         console.log(cutStartPoints);
     }
